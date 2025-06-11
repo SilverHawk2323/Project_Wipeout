@@ -9,10 +9,10 @@ public class ThirdPersonController : MonoBehaviour
     public Transform modelMesh;
 
     private Rigidbody _rb;
-
+    public static ThirdPersonController playerRef;
     private Vector3 _movementVector, _playerDirection;
 
-    
+    public GameObject checkpoint;
 
     private Animator _ani;
 
@@ -20,6 +20,7 @@ public class ThirdPersonController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _ani = modelMesh.GetComponent<Animator>();
+        playerRef = playerRef == null ? this : playerRef;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,7 +52,7 @@ public class ThirdPersonController : MonoBehaviour
         //was just to brag, a ternary operator within a ternary operator
         //Also Rotating player direction towards the movement vector. Locking rotation if RMB is held
         //_playerDirection = Vector3.Slerp(_playerDirection, Input.GetMouseButton(1) ? forwardFlat : _movementVector.magnitude > 0 ? _movementVector : _playerDirection, 5 * Time.deltaTime);
-        _playerDirection = Vector3.Slerp(_playerDirection, _playerDirection, 5 * Time.deltaTime);
+        _playerDirection = Vector3.Slerp(_playerDirection, _movementVector, 5 * Time.deltaTime);
 
         modelMesh.rotation = Quaternion.LookRotation(_playerDirection);
 
@@ -65,7 +66,7 @@ public class ThirdPersonController : MonoBehaviour
         //MOVE TOWARDS -- lerping with a set step
         if(_movementVector.magnitude > 0)
         {
-            speed = Mathf.MoveTowards(speed, Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed, 2 * Time.deltaTime);
+            speed = Mathf.MoveTowards(speed, runSpeed, 5 * Time.deltaTime);
         }
         else
         {
@@ -73,10 +74,21 @@ public class ThirdPersonController : MonoBehaviour
         }
 
         //Animation Updates
+        _ani.SetBool("Running", _movementVector.magnitude > 0);
         _ani.SetFloat("X", Input.GetAxis("Horizontal"));
         _ani.SetFloat("Z", Input.GetAxis("Vertical"));
         _ani.SetBool("Grounded", grounded);
         
+    }
+
+    public void RespawnPlayer()
+    {
+        transform.position = checkpoint.transform.position;
+    }
+
+    public void SetCheckpoint(GameObject newCheckpoint)
+    {
+        checkpoint = newCheckpoint;
     }
 
     //Runs to what the fixed Timestep is set, by default it's 0.02 seconds
