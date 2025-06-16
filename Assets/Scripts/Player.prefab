@@ -320,7 +320,8 @@ MonoBehaviour:
   speed: 0
   jumpForce: 4
   grounded: 1
-  modelMesh: {fileID: 0}
+  modelMesh: {fileID: 7912388809926294783}
+  checkpoint: {fileID: 0}
 --- !u!1 &6562576583082705514
 GameObject:
   m_ObjectHideFlags: 0
