@@ -6,6 +6,7 @@ using UnityEditor;
 
 public class MenuButtons : MonoBehaviour
 {
+    
     public void RestartLevel()
     {
         SceneManager.LoadScene("SampleScene");
@@ -18,5 +19,10 @@ public class MenuButtons : MonoBehaviour
         EditorApplication.isPlaying = false;
 #endif
         Application.Quit();
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }

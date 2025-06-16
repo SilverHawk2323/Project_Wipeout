@@ -13,10 +13,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        SetCursor(false);
+        
         Time.timeScale = 1f;
         GUI.SetActive(true);
         gm = gm == null ? this : gm;
+    }
+
+    private void Start()
+    {
+        SetCursor(false);
     }
 
     private void Update()
