@@ -32,7 +32,9 @@ public class MovingPlatform : MonoBehaviour
 
     public void MovePlatform()
     {
+        points[i].gameObject.SetActive(false);
         i = i == 0 ? 1 : 0;
+        points[i].gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject winScreen;
     public TMP_Text winText;
     public GameObject GUI;
+    public GameObject pauseScreen;
 
     private void Awake()
     {
@@ -29,6 +30,24 @@ public class GameManager : MonoBehaviour
         if (wonGame) return;
         timer += Time.deltaTime;
         timerText.text = "Time: " + Mathf.Round(timer * 100) / 100;
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            if (pauseScreen.activeInHierarchy)
+            {
+                Time.timeScale = 1f;
+                GUI.SetActive(true);
+                SetPauseScreen(false);
+                SetCursor(false);
+            }
+            else
+            {
+                Time.timeScale = 0f;
+                GUI.SetActive(false);
+                SetPauseScreen(true);
+                SetCursor(true);
+            }
+                
+        }
     }
 
     public void WinScreen()
@@ -38,7 +57,7 @@ public class GameManager : MonoBehaviour
         GUI.SetActive(false);
         Time.timeScale = 0f;
         winScreen.SetActive(true);
-        winText.text = "Happy Birthday!!!\nYou're now the ultimate ninja \nYour time was: \n" + timerText.text + "seconds"; 
+        winText.text = "Happy Birthday!!!\nYou're now the ultimate ninja \nYour time was: \n" + timerText.text + " seconds"; 
     }
 
     public void SetCursor(bool isOn)
@@ -53,5 +72,10 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+    }
+
+    public void SetPauseScreen(bool isOn)
+    {
+        pauseScreen.SetActive(isOn);
     }
 }

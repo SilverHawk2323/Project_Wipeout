@@ -25,4 +25,11 @@ public class MenuButtons : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1.0f;
+        GameManager.gm.SetCursor(false);
+        GameManager.gm.SetPauseScreen(false);
+    }
 }
